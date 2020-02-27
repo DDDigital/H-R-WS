@@ -12,6 +12,7 @@ using H_R_WS.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using H_R_WS.Models;
 
 namespace H_R_WS
 {
@@ -32,6 +33,9 @@ namespace H_R_WS
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+               .AddEntityFrameworkStores<ApplicationDbContext>()
+               .AddDefaultTokenProviders();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -66,5 +70,6 @@ namespace H_R_WS
                 endpoints.MapRazorPages();
             });
         }
+        
     }
 }
