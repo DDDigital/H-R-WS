@@ -29,13 +29,11 @@ namespace H_R_WS
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                options.UseSqlServer(Configuration.GetConnectionString("HotelDB")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
-               .AddEntityFrameworkStores<ApplicationDbContext>()
-               .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            services.AddMvc();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
