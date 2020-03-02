@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using H_R_WS.Models;
+using H_R_WS.Services;
 
 namespace H_R_WS
 {
@@ -33,6 +34,7 @@ namespace H_R_WS
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+            services.AddScoped(typeof(IGenericHotelService<>), typeof(GenericHotelService<>));
             services.AddMvc();
             services.AddControllersWithViews();
             services.AddRazorPages();
