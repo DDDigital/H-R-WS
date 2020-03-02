@@ -1,4 +1,6 @@
 ﻿using H_R_WS.Data;
+using H_R_WS.Models;
+using H_R_WS.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -56,6 +58,23 @@ namespace H_R_WS.Services
         {
             DbSet.Remove(entity);
             await _context.SaveChangesAsync();
+        }
+        public RoomsAdminIndexViewModel GetAllRoomsAndRoomTypes()
+        {
+
+            var rooms = _context.Rooms.ToList();
+            var roomtypes = _context.RoomTypes.ToList();
+
+            var RoomsAdminIndeViewModel = new RoomsAdminIndexViewModel
+            {
+                Rooms = rooms,
+                RoomTypes = roomtypes
+            };
+            return RoomsAdminIndeViewModel;
+        }
+        public async Task<IEnumerable<RoomType>> GetAllRoomTypesAsync()
+        {
+            return await _context.RoomTypes.ToArrayAsync();
         }
     }
 }
