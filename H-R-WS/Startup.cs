@@ -12,6 +12,8 @@ using H_R_WS.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using H_R_WS.Models;
+using H_R_WS.Services;
 
 namespace H_R_WS
 {
@@ -28,10 +30,12 @@ namespace H_R_WS
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                options.UseSqlServer(Configuration.GetConnectionString("H-R-WS")));
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            services.AddScoped(typeof(IGenericHotelService<>), typeof(GenericHotelService<>));
+            services.AddMvc();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -66,5 +70,6 @@ namespace H_R_WS
                 endpoints.MapRazorPages();
             });
         }
+        
     }
 }
