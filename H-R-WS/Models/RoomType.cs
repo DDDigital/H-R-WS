@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace H_R_WS.Models
 {
+    //Модель типів кімнат
     public class RoomType
     {
         public Guid ID { get; set; }

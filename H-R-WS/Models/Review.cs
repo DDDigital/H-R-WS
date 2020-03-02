@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace H_R_WS.Models
 {
+    //Модель відгуків
     public class Review
     {
         public Guid ID { get; set; }

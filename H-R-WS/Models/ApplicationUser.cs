@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace H_R_WS.Models
 {
+    //Модель користувача
     public class ApplicationUser : IdentityUser
     {
         public string Address { get; set; }
