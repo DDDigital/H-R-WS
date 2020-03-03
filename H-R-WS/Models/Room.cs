@@ -9,9 +9,9 @@ namespace H_R_WS.Models
     public class Room
     {
 
-        public Guid ID { get; set; }
+        public string ID { get; set; }
         public int Number { get; set; }
-        public Guid RoomTypeID { get; set; }
+        public string RoomTypeID { get; set; }
         public virtual RoomType RoomType { get; set; }
         public decimal Price { get; set; }
         public bool Available { get; set; }

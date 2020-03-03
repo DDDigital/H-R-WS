@@ -7,8 +7,8 @@ namespace H_R_WS.Models
 {
     public class Review
     {
-        public Guid ID { get; set; }
-        public Guid RoomID { get; set; }
+        public string ID { get; set; }
+        public string RoomID { get; set; }
         public virtual Room Room { get; set; }
         public string ReviewerName { get; set; }
         public string ReviewerEmail { get; set; }

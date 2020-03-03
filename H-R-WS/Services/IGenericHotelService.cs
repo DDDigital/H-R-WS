@@ -25,5 +25,7 @@ namespace H_R_WS.Services
         RoomsAdminIndexViewModel GetAllRoomsAndRoomTypes();
 
         Task<IEnumerable<RoomType>> GetAllRoomTypesAsync();
+
+        List<SelectedRoomFeatureViewModel> PopulateSelectedFeaturesForRoom(Room room);
     }
 }

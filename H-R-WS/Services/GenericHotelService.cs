@@ -74,5 +74,40 @@ namespace H_R_WS.Services
         {
             return await _context.RoomTypes.ToArrayAsync();
         }
+        public List<SelectedRoomFeatureViewModel> PopulateSelectedFeaturesForRoom(Room room)
+        {
+            var viewModel = new List<SelectedRoomFeatureViewModel>();
+            var allFeatures = _context.Features;
+            if (room.ID == "" || room.ID == null)
+            {
+                foreach (var feature in allFeatures)
+                {
+                    viewModel.Add(new SelectedRoomFeatureViewModel
+                    {
+                        FeatureID = feature.ID,
+                        Feature = feature,
+                        Selected = false
+                    });
+                }
+            }
+            else
+            {
+                var roomFeatures = _context.RoomFeatureRelationships.Where(x => x.RoomID == room.ID);
+                var roomFeatureIDs = new HashSet<string>(roomFeatures.Select(x => x.FeatureID));
+
+
+                foreach (var feature in allFeatures)
+                {
+                    viewModel.Add(new SelectedRoomFeatureViewModel
+                    {
+                        FeatureID = feature.ID,
+                        Feature = feature,
+                        Selected = roomFeatureIDs.Contains(feature.ID)
+                    });
+                }
+            }
+
+            return viewModel;
+        }
     }
 }

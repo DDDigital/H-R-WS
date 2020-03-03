@@ -26,7 +26,7 @@ namespace H_R_WS.Controllers
         }
 
         // GET: Images/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -59,7 +59,7 @@ namespace H_R_WS.Controllers
         {
             if (ModelState.IsValid)
             {
-                image.ID = Guid.NewGuid();
+                image.ID = Guid.NewGuid().ToString();
                 _context.Add(image);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -88,7 +88,7 @@ namespace H_R_WS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ID,ImageUrl")] Image image)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,ImageUrl")] Image image)
         {
             if (id != image.ID)
             {
@@ -119,7 +119,7 @@ namespace H_R_WS.Controllers
         }
 
         // GET: Images/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -139,7 +139,7 @@ namespace H_R_WS.Controllers
         // POST: Images/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var image = await _context.Images.FindAsync(id);
             _context.Images.Remove(image);
@@ -147,7 +147,7 @@ namespace H_R_WS.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ImageExists(Guid id)
+        private bool ImageExists(string id)
         {
             return _context.Images.Any(e => e.ID == id);
         }

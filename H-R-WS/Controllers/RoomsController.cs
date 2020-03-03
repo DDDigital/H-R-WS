@@ -28,7 +28,7 @@ namespace H_R_WS.Controllers
         }
 
         // GET: Rooms/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -63,7 +63,7 @@ namespace H_R_WS.Controllers
         {
             if (ModelState.IsValid)
             {
-                room.ID = Guid.NewGuid();
+                room.ID = Guid.NewGuid().ToString();
                 _context.Add(room);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -94,7 +94,7 @@ namespace H_R_WS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ID,Number,RoomTypeID,Price,Available,Description,MaximumGuests")] Room room)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Number,RoomTypeID,Price,Available,Description,MaximumGuests")] Room room)
         {
             if (id != room.ID)
             {
@@ -126,7 +126,7 @@ namespace H_R_WS.Controllers
         }
 
         // GET: Rooms/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -155,7 +155,7 @@ namespace H_R_WS.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RoomExists(Guid id)
+        private bool RoomExists(string id)
         {
             return _context.Rooms.Any(e => e.ID == id);
         }

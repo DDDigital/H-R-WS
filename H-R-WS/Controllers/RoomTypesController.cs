@@ -57,7 +57,7 @@ namespace H_R_WS.Controllers
         {
             if (ModelState.IsValid)
             {
-                roomType.ID = Guid.NewGuid();
+                roomType.ID = Guid.NewGuid().ToString();
                 await _roomTypeService.CreateItemAsync(roomType);
                 return RedirectToAction(nameof(Index));
             }
@@ -85,7 +85,7 @@ namespace H_R_WS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ID,Name,BasePrice,Description,ImageUrl")] RoomType roomType)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Name,BasePrice,Description,ImageUrl")] RoomType roomType)
         {
             if (id != roomType.ID)
             {
