@@ -21,16 +21,24 @@ namespace H_R_WS.Data
         public DbSet<Image> Images { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<RoomFeature> RoomFeatureRelationships { get; set; }
 
 
-       
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder.Entity<Room>()
-                    .HasMany(c => c.Features).WithMany(i => i.Rooms)
-                    .Map(t => t.MapLeftKey("RoomD")
-                    .MapRightKey("FeatureID")
-                    .ToTable("RoomFeatures"));
+            base.OnModelCreating(builder);
+
+            builder.Entity<RoomFeature>()
+                .HasKey(x => new { x.RoomID, x.FeatureID });
+
+            builder.Entity<RoomFeature>()
+                .HasOne(rf => rf.Room)
+                .WithMany(r => r.Features);
+
+            builder.Entity<RoomFeature>()
+                .HasOne(f => f.Feature)
+                .WithMany(r => r.Rooms);
         }
     }
 }
