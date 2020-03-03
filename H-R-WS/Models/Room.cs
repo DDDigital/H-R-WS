@@ -7,6 +7,7 @@ namespace H_R_WS.Models
 {
     public class Room
     {
+
         public Guid ID { get; set; }
         public int Number { get; set; }
         public Guid RoomTypeID { get; set; }
@@ -19,5 +20,9 @@ namespace H_R_WS.Models
         public virtual List<Image> RoomImages { get; set; }
         public virtual List<Review> Reviews { get; set; }
         public virtual List<Booking> Bookings { get; set; }
+
+
+        
+        public virtual ICollection<RoomFeature> Features { get; set; }
     }
 }

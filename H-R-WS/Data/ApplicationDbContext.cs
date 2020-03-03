@@ -23,12 +23,14 @@ namespace H_R_WS.Data
         public DbSet<Review> Reviews { get; set; }
 
 
+       
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+            modelBuilder.Entity<Room>()
+                    .HasMany(c => c.Features).WithMany(i => i.Rooms)
+                    .Map(t => t.MapLeftKey("RoomD")
+                    .MapRightKey("FeatureID")
+                    .ToTable("RoomFeatures"));
         }
     }
 }

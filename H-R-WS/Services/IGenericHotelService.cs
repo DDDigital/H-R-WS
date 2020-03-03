@@ -1,4 +1,6 @@
-﻿using System;
+﻿using H_R_WS.Models;
+using H_R_WS.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -19,5 +21,9 @@ namespace H_R_WS.Services
         Task EditItemAsync(TEntity entity);
 
         Task DeleteItemAsync(TEntity entity);
+
+        RoomsAdminIndexViewModel GetAllRoomsAndRoomTypes();
+
+        Task<IEnumerable<RoomType>> GetAllRoomTypesAsync();
     }
 }
