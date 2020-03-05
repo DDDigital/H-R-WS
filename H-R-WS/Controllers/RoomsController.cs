@@ -33,20 +33,20 @@ namespace H_R_WS.Controllers
                 return NotFound();
             }
 
-            var roomType = await _RoomService.GetItemByIdAsync(id);
+            var room = await _RoomService.GetItemByIdAsync(id);
 
-            if (roomType == null)
+            if (room == null)
             {
                 return NotFound();
             }
-            return View(roomType);
+            return View(room);
         }
 
         // GET: Rooms/Create
         public IActionResult Create()
         {
-            var RoomTypes = _RoomService.GetAllRoomTypesAsync().Result;
-            ViewData["RoomTypeID"] = new SelectList(RoomTypes, "ID", "Name");
+            var Room = _RoomService.GetAllRoomTypesAsync().Result;
+            ViewData["RoomTypeID"] = new SelectList(Room, "ID", "Name");
             return View();
         }
 
@@ -74,12 +74,12 @@ namespace H_R_WS.Controllers
                 return NotFound();
             }
 
-            var roomType = await _RoomService.GetItemByIdAsync(id);
-            if (roomType == null)
+            var room = await _RoomService.GetItemByIdAsync(id);
+            if (room == null)
             {
                 return NotFound();
             }
-            return View(roomType);
+            return View(room);
         }
 
         // POST: Rooms/Edit/5
@@ -124,13 +124,13 @@ namespace H_R_WS.Controllers
                 return NotFound();
             }
 
-            var roomType = await _RoomService.GetItemByIdAsync(id);
-            if (roomType == null)
+            var room = await _RoomService.GetItemByIdAsync(id);
+            if (room == null)
             {
                 return NotFound();
             }
 
-            return View(roomType);
+            return View(room);
         }
 
         // POST: Rooms/Delete/5
@@ -138,8 +138,8 @@ namespace H_R_WS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var roomType = await _RoomService.GetItemByIdAsync(id);
-            await _RoomService.DeleteItemAsync(roomType);
+            var room = await _RoomService.GetItemByIdAsync(id);
+            await _RoomService.DeleteItemAsync(room);
             return RedirectToAction(nameof(Index));
         }
         /*

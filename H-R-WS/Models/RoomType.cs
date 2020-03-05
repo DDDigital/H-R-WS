@@ -8,6 +8,7 @@ namespace H_R_WS.Models
     //Модель типів кімнат
     public class RoomType
     {
+        public virtual ICollection<Room> Rooms { get; set; }
         public Guid ID { get; set; }
         public string Name { get; set; }
         public decimal BasePrice { get; set; }
