@@ -9,7 +9,7 @@ namespace H_R_WS.Models
     public class Feature
     {
         public virtual ICollection<RoomFeature> Rooms { get; set; }
-        public Guid ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
         public string Icon { get; set; }
 

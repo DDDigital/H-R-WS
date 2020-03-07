@@ -1,65 +1,32 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace H_R_WS.Data.Migrations
+namespace H_R_WS.Migrations
 {
-    public partial class InitTables : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "AspNetUserTokens",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(128)",
-                oldMaxLength: 128);
+           
 
-            migrationBuilder.AlterColumn<string>(
-                name: "LoginProvider",
-                table: "AspNetUserTokens",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(128)",
-                oldMaxLength: 128);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Address",
-                table: "AspNetUsers",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "City",
-                table: "AspNetUsers",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Discriminator",
-                table: "AspNetUsers",
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "ProviderKey",
-                table: "AspNetUserLogins",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(128)",
-                oldMaxLength: 128);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "LoginProvider",
-                table: "AspNetUserLogins",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(128)",
-                oldMaxLength: 128);
+            migrationBuilder.CreateTable(
+                name: "Features",
+                columns: table => new
+                {
+                    ID = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Icon = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Features", x => x.ID);
+                });
 
             migrationBuilder.CreateTable(
                 name: "RoomTypes",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(nullable: false),
+                    ID = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     BasePrice = table.Column<decimal>(nullable: false),
                     Description = table.Column<string>(nullable: true),
@@ -70,13 +37,14 @@ namespace H_R_WS.Data.Migrations
                     table.PrimaryKey("PK_RoomTypes", x => x.ID);
                 });
 
+
             migrationBuilder.CreateTable(
                 name: "Rooms",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(nullable: false),
+                    ID = table.Column<string>(nullable: false),
                     Number = table.Column<int>(nullable: false),
-                    RoomTypeID = table.Column<Guid>(nullable: false),
+                    RoomTypeID = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
                     Available = table.Column<bool>(nullable: false),
                     Description = table.Column<string>(nullable: true),
@@ -90,15 +58,15 @@ namespace H_R_WS.Data.Migrations
                         column: x => x.RoomTypeID,
                         principalTable: "RoomTypes",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Bookings",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(nullable: false),
-                    RoomID = table.Column<Guid>(nullable: false),
+                    ID = table.Column<string>(nullable: false),
+                    RoomID = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     CheckIn = table.Column<DateTime>(nullable: false),
                     CheckOut = table.Column<DateTime>(nullable: false),
@@ -129,26 +97,6 @@ namespace H_R_WS.Data.Migrations
                         column: x => x.RoomID,
                         principalTable: "Rooms",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Features",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Icon = table.Column<string>(nullable: true),
-                    RoomID = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Features", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Features_Rooms_RoomID",
-                        column: x => x.RoomID,
-                        principalTable: "Rooms",
-                        principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -156,9 +104,9 @@ namespace H_R_WS.Data.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(nullable: false),
+                    ID = table.Column<string>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: true),
-                    RoomID = table.Column<Guid>(nullable: true)
+                    RoomID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -176,7 +124,7 @@ namespace H_R_WS.Data.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(nullable: false),
-                    RoomID = table.Column<Guid>(nullable: false),
+                    RoomID = table.Column<string>(nullable: true),
                     ReviewerName = table.Column<string>(nullable: true),
                     ReviewerEmail = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true)
@@ -186,6 +134,30 @@ namespace H_R_WS.Data.Migrations
                     table.PrimaryKey("PK_Reviews", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Reviews_Rooms_RoomID",
+                        column: x => x.RoomID,
+                        principalTable: "Rooms",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoomFeatureRelationships",
+                columns: table => new
+                {
+                    RoomID = table.Column<string>(nullable: false),
+                    FeatureID = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomFeatureRelationships", x => new { x.RoomID, x.FeatureID });
+                    table.ForeignKey(
+                        name: "FK_RoomFeatureRelationships_Features_FeatureID",
+                        column: x => x.FeatureID,
+                        principalTable: "Features",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RoomFeatureRelationships_Rooms_RoomID",
                         column: x => x.RoomID,
                         principalTable: "Rooms",
                         principalColumn: "ID",
@@ -203,11 +175,6 @@ namespace H_R_WS.Data.Migrations
                 column: "RoomID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Features_RoomID",
-                table: "Features",
-                column: "RoomID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Images_RoomID",
                 table: "Images",
                 column: "RoomID");
@@ -218,6 +185,11 @@ namespace H_R_WS.Data.Migrations
                 column: "RoomID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RoomFeatureRelationships_FeatureID",
+                table: "RoomFeatureRelationships",
+                column: "FeatureID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Rooms_RoomTypeID",
                 table: "Rooms",
                 column: "RoomTypeID");
@@ -226,10 +198,22 @@ namespace H_R_WS.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Bookings");
+                name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
-                name: "Features");
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Bookings");
 
             migrationBuilder.DropTable(
                 name: "Images");
@@ -238,54 +222,22 @@ namespace H_R_WS.Data.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
+                name: "RoomFeatureRelationships");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Features");
+
+            migrationBuilder.DropTable(
                 name: "Rooms");
 
             migrationBuilder.DropTable(
                 name: "RoomTypes");
-
-            migrationBuilder.DropColumn(
-                name: "Address",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "City",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "Discriminator",
-                table: "AspNetUsers");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "AspNetUserTokens",
-                type: "nvarchar(128)",
-                maxLength: 128,
-                nullable: false,
-                oldClrType: typeof(string));
-
-            migrationBuilder.AlterColumn<string>(
-                name: "LoginProvider",
-                table: "AspNetUserTokens",
-                type: "nvarchar(128)",
-                maxLength: 128,
-                nullable: false,
-                oldClrType: typeof(string));
-
-            migrationBuilder.AlterColumn<string>(
-                name: "ProviderKey",
-                table: "AspNetUserLogins",
-                type: "nvarchar(128)",
-                maxLength: 128,
-                nullable: false,
-                oldClrType: typeof(string));
-
-            migrationBuilder.AlterColumn<string>(
-                name: "LoginProvider",
-                table: "AspNetUserLogins",
-                type: "nvarchar(128)",
-                maxLength: 128,
-                nullable: false,
-                oldClrType: typeof(string));
         }
     }
 }

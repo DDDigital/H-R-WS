@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace H_R_WS.Data.Migrations
+namespace H_R_WS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -92,9 +92,8 @@ namespace H_R_WS.Data.Migrations
 
             modelBuilder.Entity("H_R_WS.Models.Booking", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("ApplicationUserId")
                         .HasColumnType("uniqueidentifier");
@@ -138,8 +137,8 @@ namespace H_R_WS.Data.Migrations
                     b.Property<bool>("Paid")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("RoomID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("RoomID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("TotalFee")
                         .HasColumnType("decimal(18,2)");
@@ -155,9 +154,8 @@ namespace H_R_WS.Data.Migrations
 
             modelBuilder.Entity("H_R_WS.Models.Feature", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Icon")
                         .HasColumnType("nvarchar(max)");
@@ -172,15 +170,14 @@ namespace H_R_WS.Data.Migrations
 
             modelBuilder.Entity("H_R_WS.Models.Image", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RoomID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("RoomID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -204,8 +201,8 @@ namespace H_R_WS.Data.Migrations
                     b.Property<string>("ReviewerName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RoomID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("RoomID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -216,9 +213,8 @@ namespace H_R_WS.Data.Migrations
 
             modelBuilder.Entity("H_R_WS.Models.Room", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Available")
                         .HasColumnType("bit");
@@ -236,14 +232,11 @@ namespace H_R_WS.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("RoomTypeID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("RoomTypeID1")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("RoomTypeID1");
+                    b.HasIndex("RoomTypeID");
 
                     b.ToTable("Rooms");
                 });
@@ -256,26 +249,17 @@ namespace H_R_WS.Data.Migrations
                     b.Property<string>("FeatureID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("FeatureID1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RoomID1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("RoomID", "FeatureID");
 
-                    b.HasIndex("FeatureID1");
-
-                    b.HasIndex("RoomID1");
+                    b.HasIndex("FeatureID");
 
                     b.ToTable("RoomFeatureRelationships");
                 });
 
             modelBuilder.Entity("H_R_WS.Models.RoomType", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal(18,2)");
@@ -433,9 +417,7 @@ namespace H_R_WS.Data.Migrations
 
                     b.HasOne("H_R_WS.Models.Room", "Room")
                         .WithMany("Bookings")
-                        .HasForeignKey("RoomID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomID");
                 });
 
             modelBuilder.Entity("H_R_WS.Models.Image", b =>
@@ -449,27 +431,29 @@ namespace H_R_WS.Data.Migrations
                 {
                     b.HasOne("H_R_WS.Models.Room", "Room")
                         .WithMany("Reviews")
-                        .HasForeignKey("RoomID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomID");
                 });
 
             modelBuilder.Entity("H_R_WS.Models.Room", b =>
                 {
                     b.HasOne("H_R_WS.Models.RoomType", "RoomType")
                         .WithMany("Rooms")
-                        .HasForeignKey("RoomTypeID1");
+                        .HasForeignKey("RoomTypeID");
                 });
 
             modelBuilder.Entity("H_R_WS.Models.RoomFeature", b =>
                 {
                     b.HasOne("H_R_WS.Models.Feature", "Feature")
                         .WithMany("Rooms")
-                        .HasForeignKey("FeatureID1");
+                        .HasForeignKey("FeatureID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("H_R_WS.Models.Room", "Room")
                         .WithMany("Features")
-                        .HasForeignKey("RoomID1");
+                        .HasForeignKey("RoomID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

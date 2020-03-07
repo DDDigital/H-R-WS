@@ -27,7 +27,7 @@ namespace H_R_WS.Services
             return await DbSet.ToArrayAsync();
         }
         //Отримання речі за ID 
-        public async Task<TEntity> GetItemByIdAsync(Guid? id)
+        public async Task<TEntity> GetItemByIdAsync(string id)
         {
             if (id == null)
             {
@@ -75,6 +75,79 @@ namespace H_R_WS.Services
         public async Task<IEnumerable<RoomType>> GetAllRoomTypesAsync()
         {
             return await _context.RoomTypes.ToArrayAsync();
+        }
+        public IEnumerable<Room> GetAllRooms()
+        {
+            return _context.Rooms.Include(x => x.RoomType);
+        }
+        public IEnumerable<Room> GetAllRoomsWithFeature(string featureID)
+        {
+            var RoomFeatures = _context.RoomFeatureRelationships.Include(x => x.Room).Include(x => x.Room.RoomType).Where(x => x.FeatureID == featureID);
+            var SelectedRooms = new List<Room>();
+            foreach (var roomFeature in RoomFeatures)
+            {
+                SelectedRooms.Add(roomFeature.Room);
+            }
+            return SelectedRooms;
+        }
+        public List<SelectedRoomFeatureViewModel> PopulateSelectedFeaturesForRoom(Room room)
+        {
+            var viewModel = new List<SelectedRoomFeatureViewModel>();
+            var allFeatures = _context.Features;
+            if (room.ID == "" || room.ID == null)
+            {
+                foreach (var feature in allFeatures)
+                {
+                    viewModel.Add(new SelectedRoomFeatureViewModel
+                    {
+                        FeatureID = feature.ID,
+                        Feature = feature,
+                        Selected = false
+                    });
+                }
+            }
+            else
+            {
+                var roomFeatures = _context.RoomFeatureRelationships.Where(x => x.RoomID == room.ID);
+                var roomFeatureIDs = new HashSet<string>(roomFeatures.Select(x => x.FeatureID));
+
+
+                foreach (var feature in allFeatures)
+                {
+                    viewModel.Add(new SelectedRoomFeatureViewModel
+                    {
+                        FeatureID = feature.ID,
+                        Feature = feature,
+                        Selected = roomFeatureIDs.Contains(feature.ID)
+                    });
+                }
+            }
+
+            return viewModel;
+        }
+        public void UpdateRoomFeaturesList(Room room, string[] SelectedFeatureIDs)
+        {
+            var PreviouslySelectedFeatures = _context.RoomFeatureRelationships.Where(x => x.RoomID == room.ID);
+            _context.RoomFeatureRelationships.RemoveRange(PreviouslySelectedFeatures);
+            _context.SaveChanges();
+
+
+            if (SelectedFeatureIDs != null)
+            {
+                foreach (var featureID in SelectedFeatureIDs)
+                {
+                    var AllFeatureIDs = new HashSet<string>(_context.Features.Select(x => x.ID));
+                    if (AllFeatureIDs.Contains(featureID))
+                    {
+                        _context.RoomFeatureRelationships.Add(new RoomFeature
+                        {
+                            FeatureID = featureID,
+                            RoomID = room.ID
+                        });
+                    }
+                }
+                _context.SaveChanges();
+            }
         }
     }
 }

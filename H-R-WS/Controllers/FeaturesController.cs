@@ -11,21 +11,22 @@ using H_R_WS.Services;
 
 namespace H_R_WS.Controllers
 {
-    public class RoomsController : Controller
+    public class FeaturesController : Controller
     {
-        private readonly IGenericHotelService<Room> _RoomService;
+        private readonly IGenericHotelService<Feature> _hotelService;
 
-        public RoomsController(IGenericHotelService<Room> genericHotelService)
+        public FeaturesController(IGenericHotelService<Feature> genericHotelService)
         {
-            _RoomService = genericHotelService;
+            _hotelService = genericHotelService;
         }
 
-        // GET: Rooms
-        public IActionResult Index()
+        // GET: Features
+        public async Task<IActionResult> Index()
         {
-            return View(_RoomService.GetAllRoomsAndRoomTypes());
+            return View(await _hotelService.GetAllItemsAsync());
         }
-        // GET: Rooms/Details/5
+
+        // GET: Features/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -33,42 +34,41 @@ namespace H_R_WS.Controllers
                 return NotFound();
             }
 
-            var room = await _RoomService.GetItemByIdAsync(id);
+            var feature = await _hotelService.GetItemByIdAsync(id);
 
-            if (room == null)
+
+            if (feature == null)
             {
                 return NotFound();
             }
-            return View(room);
+
+
+            return View(feature);
         }
 
-        // GET: Rooms/Create
+        // GET: Features/Create
         public IActionResult Create()
         {
-            var Room = _RoomService.GetAllRoomTypesAsync().Result;
-            ViewData["RoomTypeID"] = new SelectList(Room, "ID", "Name");
-            var room = new Room();
-            ViewData["Features"] = _RoomService.PopulateSelectedFeaturesForRoom(room);
             return View();
         }
 
-        // POST: Rooms/Create
+        // POST: Features/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Number,RoomTypeID,Price,Available,Description,MaximumGuests")] Room room)
+        public async Task<IActionResult> Create([Bind("ID,Name,Icon")] Feature feature)
         {
             if (ModelState.IsValid)
             {
-                room.ID = Guid.NewGuid().ToString();
-                await _RoomService.CreateItemAsync(room);
+                feature.ID = Guid.NewGuid().ToString();
+                await _hotelService.CreateItemAsync(feature);
                 return RedirectToAction(nameof(Index));
             }
-            return View(room);
+            return View(feature);
         }
 
-        // GET: Rooms/Edit/5
+        // GET: Features/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -76,23 +76,25 @@ namespace H_R_WS.Controllers
                 return NotFound();
             }
 
-            var room = await _RoomService.GetItemByIdAsync(id);
-            if (room == null)
+            var feature = await _hotelService.GetItemByIdAsync(id);
+
+            var rooms = _hotelService.GetAllRoomsWithFeature(id);
+            ViewData["RoomsWithFeature"] = rooms;
+            if (feature == null)
             {
                 return NotFound();
             }
-            ViewData["Features"] = _RoomService.PopulateSelectedFeaturesForRoom(room);
-            return View(room);
+            return View(feature);
         }
 
-        // POST: Rooms/Edit/5
+        // POST: Features/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Number,RoomTypeID,Price,Available,Description,MaximumGuests")] Room room, string[] SelectedFeatureIDs)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Name,Icon")] Feature feature)
         {
-            if (id != room.ID)
+            if (id != feature.ID)
             {
                 return NotFound();
             }
@@ -101,11 +103,11 @@ namespace H_R_WS.Controllers
             {
                 try
                 {
-                    await _RoomService.EditItemAsync(room);
+                    await _hotelService.EditItemAsync(feature);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (_RoomService.GetItemByIdAsync(id) == null)
+                    if (_hotelService.GetItemByIdAsync(id) == null)
                     {
                         return NotFound();
                     }
@@ -116,10 +118,10 @@ namespace H_R_WS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(room);
+            return View(feature);
         }
 
-        // GET: Rooms/Delete/5
+        // GET: Features/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -127,29 +129,24 @@ namespace H_R_WS.Controllers
                 return NotFound();
             }
 
-            var room = await _RoomService.GetItemByIdAsync(id);
-            if (room == null)
+            var feature = await _hotelService.GetItemByIdAsync(id);
+            if (feature == null)
             {
                 return NotFound();
             }
 
-            return View(room);
+            return View(feature);
         }
 
-        // POST: Rooms/Delete/5
+        // POST: Features/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var room = await _RoomService.GetItemByIdAsync(id);
-            await _RoomService.DeleteItemAsync(room);
+            var feature = await _hotelService.GetItemByIdAsync(id);
+            await _hotelService.DeleteItemAsync(feature);
             return RedirectToAction(nameof(Index));
         }
-        /*
-        private bool RoomExists(Guid id)
-        {
-            return _RoomService.Rooms.Any(e => e.ID == id);
-        }
-        */
+
     }
 }

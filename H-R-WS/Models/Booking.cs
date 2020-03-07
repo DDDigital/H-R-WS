@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,8 +9,8 @@ namespace H_R_WS.Models
     //Модель бронювання кімнати
     public class Booking
     {
-        public Guid ID { get; set; }
-        public Guid RoomID { get; set; } //Ідентифікатор кімнати
+        public string ID { get; set; }
+        public string RoomID { get; set; } //Ідентифікатор кімнати
         public virtual Room Room { get; set; }
         public DateTime DateCreated { get; set; } 
         public DateTime CheckIn { get; set; } //Дата заїзду

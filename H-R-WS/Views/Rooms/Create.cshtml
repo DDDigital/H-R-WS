@@ -1,4 +1,5 @@
 ﻿@model H_R_WS.Models.Room
+@using H_R_WS.ViewModels
 
 @{
     ViewData["Title"] = "Create";
@@ -19,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="RoomTypeID" class="control-label"></label>
-                <select asp-for="RoomTypeID" class ="form-control" asp-items="ViewBag.RoomTypeID"></select>
+                <select asp-for="RoomTypeID" class="form-control" asp-items="ViewBag.RoomTypeID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
@@ -43,6 +44,15 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Features" class="control-label"></label>
+                @foreach (var roomFeature in ViewBag.Features as IEnumerable<SelectedRoomFeatureViewModel>)
+                {
+                    <p>
+                        <input type="checkbox" name="SelectedFeatureIDs" value="@roomFeature.FeatureID" @Html.Raw(roomFeature.Selected ? "checked=\"checked\"" : "") /> @roomFeature.Feature.Name
+                    </p>
+                }
             </div>
         </form>
     </div>

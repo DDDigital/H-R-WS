@@ -12,7 +12,7 @@ namespace H_R_WS.Services
     {
         Task<IEnumerable<TEntity>> GetAllItemsAsync();
 
-        Task<TEntity> GetItemByIdAsync(Guid? id);
+        Task<TEntity> GetItemByIdAsync(string id);
 
         Task<IEnumerable<TEntity>> SearchFor(Expression<Func<TEntity, bool>> expression);
 
@@ -23,5 +23,9 @@ namespace H_R_WS.Services
         Task DeleteItemAsync(TEntity entity);
         RoomsAdminIndexViewModel GetAllRoomsAndRoomTypes();
         Task<IEnumerable<RoomType>> GetAllRoomTypesAsync();
+        IEnumerable<Room> GetAllRoomsWithFeature(string feature);
+        IEnumerable<Room> GetAllRooms();
+        List<SelectedRoomFeatureViewModel> PopulateSelectedFeaturesForRoom(Room room);
+        void UpdateRoomFeaturesList(Room room, string[] SelectedFeatureIDs);
     }
 }

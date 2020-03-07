@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace H_R_WS.Data.Migrations
+namespace H_R_WS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200302191536_InitTables")]
-    partial class InitTables
+    [Migration("20200307163001_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,11 +21,81 @@ namespace H_R_WS.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("H_R_WS.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
+
             modelBuilder.Entity("H_R_WS.Models.Booking", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("ApplicationUserId")
                         .HasColumnType("uniqueidentifier");
@@ -69,8 +139,8 @@ namespace H_R_WS.Data.Migrations
                     b.Property<bool>("Paid")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("RoomID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("RoomID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("TotalFee")
                         .HasColumnType("decimal(18,2)");
@@ -86,9 +156,8 @@ namespace H_R_WS.Data.Migrations
 
             modelBuilder.Entity("H_R_WS.Models.Feature", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Icon")
                         .HasColumnType("nvarchar(max)");
@@ -96,27 +165,21 @@ namespace H_R_WS.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RoomID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("RoomID");
 
                     b.ToTable("Features");
                 });
 
             modelBuilder.Entity("H_R_WS.Models.Image", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RoomID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("RoomID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -140,8 +203,8 @@ namespace H_R_WS.Data.Migrations
                     b.Property<string>("ReviewerName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RoomID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("RoomID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -152,9 +215,8 @@ namespace H_R_WS.Data.Migrations
 
             modelBuilder.Entity("H_R_WS.Models.Room", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Available")
                         .HasColumnType("bit");
@@ -171,8 +233,8 @@ namespace H_R_WS.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("RoomTypeID")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("RoomTypeID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -181,11 +243,25 @@ namespace H_R_WS.Data.Migrations
                     b.ToTable("Rooms");
                 });
 
+            modelBuilder.Entity("H_R_WS.Models.RoomFeature", b =>
+                {
+                    b.Property<string>("RoomID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FeatureID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomID", "FeatureID");
+
+                    b.HasIndex("FeatureID");
+
+                    b.ToTable("RoomFeatureRelationships");
+                });
+
             modelBuilder.Entity("H_R_WS.Models.RoomType", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal(18,2)");
@@ -253,77 +329,6 @@ namespace H_R_WS.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -406,19 +411,6 @@ namespace H_R_WS.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("H_R_WS.Models.ApplicationUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-                });
-
             modelBuilder.Entity("H_R_WS.Models.Booking", b =>
                 {
                     b.HasOne("H_R_WS.Models.ApplicationUser", "ApplicationUser")
@@ -427,15 +419,6 @@ namespace H_R_WS.Data.Migrations
 
                     b.HasOne("H_R_WS.Models.Room", "Room")
                         .WithMany("Bookings")
-                        .HasForeignKey("RoomID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("H_R_WS.Models.Feature", b =>
-                {
-                    b.HasOne("H_R_WS.Models.Room", null)
-                        .WithMany("Features")
                         .HasForeignKey("RoomID");
                 });
 
@@ -450,16 +433,27 @@ namespace H_R_WS.Data.Migrations
                 {
                     b.HasOne("H_R_WS.Models.Room", "Room")
                         .WithMany("Reviews")
-                        .HasForeignKey("RoomID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomID");
                 });
 
             modelBuilder.Entity("H_R_WS.Models.Room", b =>
                 {
                     b.HasOne("H_R_WS.Models.RoomType", "RoomType")
-                        .WithMany()
-                        .HasForeignKey("RoomTypeID")
+                        .WithMany("Rooms")
+                        .HasForeignKey("RoomTypeID");
+                });
+
+            modelBuilder.Entity("H_R_WS.Models.RoomFeature", b =>
+                {
+                    b.HasOne("H_R_WS.Models.Feature", "Feature")
+                        .WithMany("Rooms")
+                        .HasForeignKey("FeatureID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("H_R_WS.Models.Room", "Room")
+                        .WithMany("Features")
+                        .HasForeignKey("RoomID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -475,7 +469,7 @@ namespace H_R_WS.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("H_R_WS.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -484,7 +478,7 @@ namespace H_R_WS.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("H_R_WS.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -499,7 +493,7 @@ namespace H_R_WS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("H_R_WS.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -508,7 +502,7 @@ namespace H_R_WS.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("H_R_WS.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
