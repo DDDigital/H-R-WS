@@ -26,6 +26,12 @@ namespace H_R_WS.Controllers
         {
             return View(await _hotelService.GetAllItemsAsync());
         }
+        public async Task<IActionResult> GetAllImagesJson()
+        {
+            var images = await _hotelService.GetAllItemsAsync();
+            return PartialView("GetAllImagesPartial", images);
+        }
+
 
         // GET: Images/Details/5
         public async Task<IActionResult> Details(string id)

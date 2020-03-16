@@ -30,5 +30,7 @@ namespace H_R_WS.Services
         void UpdateRoomFeaturesList(Room room, string[] SelectedFeatureIDs);
         Task<AddImagesViewModel> AddImagesAsync(List<IFormFile> files);
         Task RemoveImageAsync(Image image);
+        void UpdateRoomImagesList(Room room, string[] imageIDs);
+        Task<RoomFeaturesAndImagesViewModel> GetRoomFeaturesAndImagesAsync(Room room);
     }
 }

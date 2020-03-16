@@ -229,5 +229,63 @@ namespace H_R_WS.Services
             _context.Images.Remove(image);
             await _context.SaveChangesAsync();
         }
+        public async Task<RoomFeaturesAndImagesViewModel> GetRoomFeaturesAndImagesAsync(Room room)
+        {
+            var RoomImagesRelationship = _context.ItemImageRelationships.Where(x => x.ItemID == room.ID);
+            var images = new List<Image>();
+            foreach (var RoomImage in RoomImagesRelationship)
+            {
+                var Image = await _context.Images.FindAsync(RoomImage.ImageID);
+                images.Add(Image);
+            }
+
+
+            var RoomFeaturesRelationship = _context.RoomFeatureRelationships.Where(x => x.RoomID == room.ID);
+            var features = new List<Feature>();
+            foreach (var RoomFeature in RoomFeaturesRelationship)
+            {
+                var Feature = await _context.Features.FindAsync(RoomFeature.FeatureID);
+                features.Add(Feature);
+            }
+
+            var ImagesAndFeatures = new RoomFeaturesAndImagesViewModel
+            {
+                Images = images,
+                Features = features
+            };
+            return ImagesAndFeatures;
+        }
+
+        public void UpdateRoomImagesList(Room room, string[] imagesIDs)
+        {
+            var PreviouslySelectedImages = _context.ItemImageRelationships.Where(x => x.ItemID == room.ID);
+            _context.ItemImageRelationships.RemoveRange(PreviouslySelectedImages);
+            _context.SaveChanges();
+
+            if (imagesIDs != null)
+            {
+                foreach (var imageID in imagesIDs)
+                {
+                    try
+                    {
+                        var AllImagesIDs = new HashSet<string>(_context.Images.Select(x => x.ID));
+                        if (AllImagesIDs.Contains(imageID))
+                        {
+                            _context.ItemImageRelationships.Add(new ItemImage
+                            {
+                                ImageID = imageID,
+                                ItemID = room.ID
+                            });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        continue;
+                    }
+                }
+                _context.SaveChanges();
+            }
+        }
+
     }
 }

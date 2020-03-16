@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace H_R_WS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200307163001_new")]
-    partial class @new
+    [Migration("20200316153836_RoomFeatureRelationship")]
+    partial class RoomFeatureRelationship
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -175,17 +175,41 @@ namespace H_R_WS.Migrations
                     b.Property<string>("ID")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoomID")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
                     b.HasIndex("RoomID");
 
                     b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("H_R_WS.Models.ItemImage", b =>
+                {
+                    b.Property<string>("ItemID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ImageID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ItemID", "ImageID");
+
+                    b.HasIndex("ImageID");
+
+                    b.ToTable("ItemImageRelationships");
                 });
 
             modelBuilder.Entity("H_R_WS.Models.Review", b =>
@@ -427,6 +451,15 @@ namespace H_R_WS.Migrations
                     b.HasOne("H_R_WS.Models.Room", null)
                         .WithMany("RoomImages")
                         .HasForeignKey("RoomID");
+                });
+
+            modelBuilder.Entity("H_R_WS.Models.ItemImage", b =>
+                {
+                    b.HasOne("H_R_WS.Models.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("H_R_WS.Models.Review", b =>

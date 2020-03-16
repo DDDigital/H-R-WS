@@ -21,6 +21,7 @@ namespace H_R_WS.Data
         public DbSet<Image> Images { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<ItemImage> ItemImageRelationships { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -37,6 +38,10 @@ namespace H_R_WS.Data
             builder.Entity<RoomFeature>()
                 .HasOne(f => f.Feature)
                 .WithMany(r => r.Rooms);
+
+            builder.Entity<ItemImage>()
+                .HasKey(x => new { x.ItemID, x.ImageID });
         }
+
     }
 }
