@@ -6,14 +6,46 @@
     <RootNamespace>H_R_WS</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20200305214351_features.cs" />
+    <Compile Remove="Data\Migrations\20200305214351_features.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200305215403_feature.cs" />
+    <Compile Remove="Data\Migrations\20200305215403_feature.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200305220113_feature.cs" />
+    <Compile Remove="Data\Migrations\20200305220113_feature.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200305220345_feature.cs" />
+    <Compile Remove="Data\Migrations\20200305220345_feature.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200307151416_feature-mig.cs" />
+    <Compile Remove="Data\Migrations\20200307151416_feature-mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200307152110_feature-mig.cs" />
+    <Compile Remove="Data\Migrations\20200307152110_feature-mig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200307155009_features.cs" />
+    <Compile Remove="Data\Migrations\20200307155009_features.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200307155844_feature.cs" />
+    <Compile Remove="Data\Migrations\20200307155844_feature.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200307160617_feature.cs" />
+    <Compile Remove="Data\Migrations\20200307160617_feature.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200307162346_newmig.cs" />
+    <Compile Remove="Data\Migrations\20200307162346_newmig.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200307162529_new.cs" />
+    <Compile Remove="Data\Migrations\20200307162529_new.Designer.cs" />
+    <Compile Remove="Migrations\20200318201604_almost.cs" />
+    <Compile Remove="Migrations\20200318201604_almost.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1" />
+    <PackageReference Include="bootstrap" Version="4.4.1" />
+    <PackageReference Include="ByteSize" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 

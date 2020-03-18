@@ -1,49 +1,138 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - H_R_WS</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Система управління готелем - це програмне забезпечення для управління готелем.">
+    <title>Тестовий готель</title>
+    <!-- ========== Файли Css ========== -->
+    <link href="~/css/root.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">H_R_WS</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - H_R_WS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- Початок завантаження сторінки -->
+    <div class="loading"><img src="~/img/loading.gif" alt="loading-img"></div>
+    <!-- Кінець завантаження сторінки -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- Верхня частина початок -->
+    <div id="top" class="clearfix">
+        <!-- Початок лого -->
+        <div class="applogo">
+            <a href="index.html" class="logo">Тестовий Готель</a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+        <!-- Кінець лого -->
+        <!-- Сайдбар початок -->
+        <a href="#" class="sidebar-open-button"><i class="fa fa-bars"></i></a>
+        <a href="#" class="sidebar-open-button-mobile"><i class="fa fa-bars"></i></a>
+        <!-- Сайдбар Кінець -->
+        <!-- Поле пошуку початок -->
+        <form class="searchform">
+            <input type="text" class="searchbox" id="searchbox" placeholder="Пошук">
+            <span class="searchbutton"><i class="fa fa-search"></i></span>
+        </form>
+        <!-- Поле пошуку кінець -->
+        <!-- Сайдпанель початок -->
+        <a href="#sidepanel" class="sidepanel-open-button"><i class="fa fa-outdent"></i></a>
+        <!-- Сайдпанель кінець -->
+        <!-- Верхня права ч. початок -->
+        <ul class="top-right">
+            <li class="dropdown link">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle hdbutton">Створити нове <span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-list">
+                    <li><a asp-action="Create" asp-controller="Rooms"><i class="fa falist fa-bed"></i>Кімната</a></li>
+                    <li><a asp-action="Create" asp-controller="RoomTypes"><i class="fa falist fa-folder-open"></i>Категорія Кімнати</a></li>
+                    <li><a asp-action="Create" asp-controller="Features"><i class="fa falist fa-check-square-o"></i>Особливості</a></li>
+                    <li><a asp-action="Create" asp-controller="Bookings"><i class="fa falist fa-calendar"></i>Бронювання</a></li>
+                </ul>
+            </li>
+            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+                <li class="dropdown link">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle profilebox"><img src="~/img/profileimg.png" alt="img"><b>@UserManager.GetUserName(User)</b><span class="caret"></span></a>
+
+                    <ul class="dropdown-menu dropdown-menu-list dropdown-menu-right">
+                        <li role="presentation" class="dropdown-header">Профіль</li>
+                        <li><a href="#"><i class="fa falist fa-inbox"></i>Вхідні<span class="badge label-danger">4</span></a></li>
+                        <li><a href="#"><i class="fa falist fa-file-o"></i>Файли</a></li>
+                        <li><a href="#"><i class="fa falist fa-wrench"></i>Налаштування</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="fa falist fa-lock"></i> Екран блокування</a></li>
+                        <li><button type="submit"><i class="fa falist fa-power-off"></i> Вихід</button></li>
+                    </ul>
+                </li>
+            </form>
+
+        </ul>
+        <!-- Верхня права ч. кінець -->
+    </div>
+    <!-- Верхня ч. кінець -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- Сайдбар початок -->
+    <div class="sidebar clearfix sidebar-colorful">
+        <ul class="sidebar-panel nav">
+            <li>
+                <a asp-action="index" asp-controller="rooms"><span class="icon color7"><i class="fa fa-bed"></i></span>Кімнати</a>
+            </li>
+            <li>
+                <a asp-action="index" asp-controller="roomtypes"><span class="icon color2"><i class="fa fa-folder-open"></i></span>Категорії кімнат</a>
+            </li>
+            <li>
+                <a asp-action="index" asp-controller="bookings"><span class="icon color3"><i class="fa fa-calendar"></i></span>Бронювання</a>
+
+            </li>
+            <li>
+                <a asp-action="index" asp-controller="features"><span class="icon color7"><i class="fa fa-check-square-o"></i></span>Особливості</a>
+            </li>
+            <li><a href="#"><span class="icon color11"><i class="fa fa-diamond"></i></span>Відгуки</a></li>
+            <li><a asp-action="index" asp-controller="images"><span class="icon color1"><i class="fa fa-image"></i></span>Медіа</a></li>
+            <li>
+                <a asp-action="index" asp-controller="manage"><span class="icon color10"><i class="fa fa-user"></i></span>Аккаунт</a>
+
+            </li>
+        </ul>
+    </div>
+    <!-- Сайдбар кінець -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- Контент початок -->
+    <div class="content">
+        @RenderBody()
+        <!-- END CONTAINER -->
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+        <!-- Футер початок -->
+        <div class="row footer">
+            <div class="col-md-6 text-left">
+                Copyright © 2020 <a href="https://github.com/DDDigital/H-R-WS" target="_blank">H_R_WS.</a> Всі права захищені.
+            </div>
+            <div class="col-md-6 text-right">
+                Створили та розробили студенти групи МІТ-41: <a href="https://github.com/DDDigital" target="_blank">Демченко А.В.</a>, <a href="https://github.com/invzbl3" target="_blank">Рогачов М.Д.</a>, <a href="https://github.com/connor999jobs" target="_blank">Костенко В.В.</a>, <a href="https://github.com/Elle85" target="_blank">Ізотов Д.І.</a>
+            </div>
+        </div>
+        <!-- Футер кінець -->
+
+    </div>
+    <!-- Контент кінець -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- Сайдпанель старт -->
+    <!-- Сайдпанель кінець -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- ================================================
+    jQuery Library
+    ================================================ -->
+    <script type="text/javascript" src="~/js/jquery.min.js"></script>
+    <!-- ================================================
+    Bootstrap Core JavaScript File
+    ================================================ -->
+    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+    <!-- ================================================
+    Plugin.js - Some Specific JS codes for Plugin Settings
+    ================================================ -->
+    <script type="text/javascript" src="~/js/plugins.js"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -8,8 +8,11 @@ namespace H_R_WS.Models
     public class Image
     {
         //Модель зображень
-        public Guid ID { get; set; }
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public string Size { get; set; }
         public string ImageUrl { get; set; }
+        public string FilePath { get; set; }
 
     }
 }

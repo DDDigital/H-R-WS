@@ -35,6 +35,7 @@ namespace H_R_WS
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddScoped(typeof(IGenericHotelService<>), typeof(GenericHotelService<>));
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddMvc();
             services.AddControllersWithViews();
             services.AddRazorPages();

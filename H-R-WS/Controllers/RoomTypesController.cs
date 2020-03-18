@@ -8,38 +8,44 @@ using Microsoft.EntityFrameworkCore;
 using H_R_WS.Data;
 using H_R_WS.Models;
 using H_R_WS.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace H_R_WS.Controllers
 {
+    [Authorize]
     public class RoomTypesController : Controller
     {
-        private readonly IGenericHotelService<RoomType> _roomTypeService;
+        private readonly IGenericHotelService<RoomType> _hotelService;
 
-        public RoomTypesController(IGenericHotelService<RoomType> roomTypeService)
+        public RoomTypesController(IGenericHotelService<RoomType> genericHotelService)
         {
-            _roomTypeService = roomTypeService;
+            _hotelService = genericHotelService;
         }
 
         // GET: RoomTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _roomTypeService.GetAllItemsAsync());
+            return View(await _hotelService.GetAllItemsAsync());
         }
 
         // GET: RoomTypes/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var roomType = await _roomTypeService.GetItemByIdAsync(id);
+            var roomType = await _hotelService.GetItemByIdAsync(id);
+
 
             if (roomType == null)
             {
                 return NotFound();
             }
+
+            var rooms = _hotelService.GetAllRooms().Where(x => x.RoomTypeID == id);
+            ViewData["CategoryRooms"] = rooms;
             return View(roomType);
         }
 
@@ -58,22 +64,22 @@ namespace H_R_WS.Controllers
         {
             if (ModelState.IsValid)
             {
-                roomType.ID = Guid.NewGuid();
-                await _roomTypeService.CreateItemAsync(roomType);
+                roomType.ID = Guid.NewGuid().ToString();
+                await _hotelService.CreateItemAsync(roomType);
                 return RedirectToAction(nameof(Index));
             }
             return View(roomType);
         }
 
         // GET: RoomTypes/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var roomType = await _roomTypeService.GetItemByIdAsync(id);
+            var roomType = await _hotelService.GetItemByIdAsync(id);
             if (roomType == null)
             {
                 return NotFound();
@@ -86,7 +92,7 @@ namespace H_R_WS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ID,Name,BasePrice,Description,ImageUrl")] RoomType roomType)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Name,BasePrice,Description,ImageUrl")] RoomType roomType)
         {
             if (id != roomType.ID)
             {
@@ -97,11 +103,11 @@ namespace H_R_WS.Controllers
             {
                 try
                 {
-                    await _roomTypeService.EditItemAsync(roomType);
+                    await _hotelService.EditItemAsync(roomType);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (_roomTypeService.GetItemByIdAsync(id) == null)
+                    if (_hotelService.GetItemByIdAsync(id) == null)
                     {
                         return NotFound();
                     }
@@ -116,14 +122,14 @@ namespace H_R_WS.Controllers
         }
 
         // GET: RoomTypes/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var roomType = await _roomTypeService.GetItemByIdAsync(id);
+            var roomType = await _hotelService.GetItemByIdAsync(id);
             if (roomType == null)
             {
                 return NotFound();
@@ -135,17 +141,11 @@ namespace H_R_WS.Controllers
         // POST: RoomTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var roomType = await _roomTypeService.GetItemByIdAsync(id);
-            await _roomTypeService.DeleteItemAsync(roomType);
+            var roomType = await _hotelService.GetItemByIdAsync(id);
+            await _hotelService.DeleteItemAsync(roomType);
             return RedirectToAction(nameof(Index));
         }
-        /*
-        private bool RoomTypeExists(Guid id)
-        {
-            return _context.RoomTypes.Any(e => e.ID == id);
-        }
-        */
     }
 }

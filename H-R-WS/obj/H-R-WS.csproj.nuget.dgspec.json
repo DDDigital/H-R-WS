@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Andr\\source\\repos\\H-R-WS\\H-R-WS\\H-R-WS.csproj": {}
+    "C:\\Users\\Andrii\\source\\repos\\H-R-WS\\H-R-WS\\H-R-WS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Andr\\source\\repos\\H-R-WS\\H-R-WS\\H-R-WS.csproj": {
+    "C:\\Users\\Andrii\\source\\repos\\H-R-WS\\H-R-WS\\H-R-WS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Andr\\source\\repos\\H-R-WS\\H-R-WS\\H-R-WS.csproj",
+        "projectUniqueName": "C:\\Users\\Andrii\\source\\repos\\H-R-WS\\H-R-WS\\H-R-WS.csproj",
         "projectName": "H-R-WS",
-        "projectPath": "C:\\Users\\Andr\\source\\repos\\H-R-WS\\H-R-WS\\H-R-WS.csproj",
-        "packagesPath": "C:\\Users\\Andr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Andr\\source\\repos\\H-R-WS\\H-R-WS\\obj\\",
+        "projectPath": "C:\\Users\\Andrii\\source\\repos\\H-R-WS\\H-R-WS\\H-R-WS.csproj",
+        "packagesPath": "C:\\Users\\Andrii\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Andrii\\source\\repos\\H-R-WS\\H-R-WS\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Andr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Andrii\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,33 +38,43 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "ByteSize": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.1.1, )"
+              "version": "[3.1.2, )"
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.1.1, )"
+              "version": "[3.1.2, )"
             },
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
-              "version": "[3.1.1, )"
+              "version": "[3.1.2, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[3.1.1, )"
+              "version": "[3.1.2, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[3.1.1, )"
+              "version": "[3.1.2, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.1, )"
+              "version": "[3.1.2, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.1, )"
+            },
+            "bootstrap": {
+              "target": "Package",
+              "version": "[4.4.1, )"
             }
           },
           "imports": [
