@@ -26,6 +26,7 @@ namespace H_R_WS.Services
         Task<IEnumerable<RoomType>> GetAllRoomTypesAsync();
         IEnumerable<Room> GetAllRoomsWithFeature(string feature);
         IEnumerable<Room> GetAllRooms();
+        IEnumerable<Booking> GetAllBookings();
         List<SelectedRoomFeatureViewModel> PopulateSelectedFeaturesForRoom(Room room);
         void UpdateRoomFeaturesList(Room room, string[] SelectedFeatureIDs);
         Task<AddImagesViewModel> AddImagesAsync(List<IFormFile> files);

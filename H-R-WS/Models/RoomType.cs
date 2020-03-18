@@ -11,8 +11,12 @@ namespace H_R_WS.Models
     {
         
         public string ID { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public decimal BasePrice { get; set; }
+        [DataType(DataType.MultilineText)]
+        [Required]
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public virtual ICollection<Room> Rooms { get; set; }

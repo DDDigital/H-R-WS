@@ -86,6 +86,11 @@ namespace H_R_WS.Services
         {
             return _context.Rooms.Include(x => x.RoomType);
         }
+
+        public IEnumerable<Booking> GetAllBookings()
+        {
+            return _context.Bookings.Include(x => x.Room).Include(x => x.Room.RoomType);
+        }
         public IEnumerable<Room> GetAllRoomsWithFeature(string featureID)
         {
             var RoomFeatures = _context.RoomFeatureRelationships.Include(x => x.Room).Include(x => x.Room.RoomType).Where(x => x.FeatureID == featureID);

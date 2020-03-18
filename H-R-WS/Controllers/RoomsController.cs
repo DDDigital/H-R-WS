@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using H_R_WS.Data;
 using H_R_WS.Models;
 using H_R_WS.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace H_R_WS.Controllers
 {
+    [Authorize]
     public class RoomsController : Controller
     {
         private readonly IGenericHotelService<Room> _RoomService;
@@ -28,7 +30,7 @@ namespace H_R_WS.Controllers
         // GET: Rooms/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            var room = await _RoomService.GetItemByIdAsync(id);
+            var room = _RoomService.GetAllRooms().SingleOrDefault(x => x.ID == id);
 
             if (room == null)
             {

@@ -4,9 +4,9 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>Створити</h2>
 
-<h4>Image</h4>
+<h4>Фото</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,12 +14,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label>Upload Image(s):</label>
+                <label>Завантажити фото:</label>
                 <input type="file" multiple class="form-control" name="Files" />
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Створити" class="btn btn-default" />
             </div>
         </form>
     </div>
@@ -49,7 +49,7 @@
         }
 
     }
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад до списку</a>
 </div>
 
 @section Scripts {

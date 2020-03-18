@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using H_R_WS.Data;
 using H_R_WS.Models;
 using H_R_WS.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace H_R_WS.Controllers
 {
+    [Authorize]
     public class FeaturesController : Controller
     {
         private readonly IGenericHotelService<Feature> _hotelService;

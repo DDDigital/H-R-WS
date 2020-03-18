@@ -41,6 +41,12 @@ namespace H_R_WS.Data
 
             builder.Entity<ItemImage>()
                 .HasKey(x => new { x.ItemID, x.ImageID });
+            
+            builder.Entity<RoomType>()
+                .HasMany(b => b.Rooms)
+                .WithOne(p => p.RoomType)
+    .HasForeignKey(p => p.RoomTypeID)
+    .OnDelete(DeleteBehavior.Cascade);
         }
 
     }
